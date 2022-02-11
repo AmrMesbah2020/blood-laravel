@@ -67,14 +67,14 @@ Route::post('post',[PostController::class,'store'])->middleware('auth:sanctum');
 
 // route to userRatePosts
 
-<<<<<<< HEAD
-Route::post('rate/{post}',[PostController::class,'rate'])->middleware('auth:sanctum');
-=======
+
+
+
 Route::post('rate/{postId}',[PostController::class,'rate'])->middleware('auth:sanctum');
 
 //route to get top rated
 Route::get('toprated',[PostController::class,'topRatedPost']);
->>>>>>> fb86cd21cdf1a3b49c7e2b27a0cae964bf09058a
+
 
 //route to get all posts
 
@@ -91,8 +91,7 @@ Route::get('donners',[DonnationController::class,'donners']);
 // route allow donner to apply request
 
 Route::post('apply/{request}',[DonnationController::class,'apply'])->middleware('auth:sanctum');
-<<<<<<< HEAD
-=======
+
 
 //  route display all requests
 
@@ -111,7 +110,7 @@ Route::post('addNotification',[notificationController::class,'send'])->middlewar
 
 
 
->>>>>>> fb86cd21cdf1a3b49c7e2b27a0cae964bf09058a
+
 
 
 
