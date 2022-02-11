@@ -29,20 +29,20 @@ class PostController extends Controller
         ]);
     }
 
-    public function rate(Request $request){
+    public function rate(Request $request,$post_id){
 
         $input=$request->all();
-        if(Rating::where('post_id',$input['post_id'])->exists()){
-            Rating::where([['user_id', $request->user()->id],['post_id', $input['post_id']]])->increment('rate');
+        if(Rating::where('post_id',$post_id)->exists()){
+            Rating::where([['user_id', $request->user()->id],['post_id',$post_id]])->increment('rate');
         }else{
         Rating::insert([
-            'post_id' => $input['post_id'],
+            'post_id' => $post_id,
             'user_id' => $request->user()->id,
         ]);
 
-        $rate =Rating::where('post_id',$input['post_id'])->pluck('rate');
+        $rate =Rating::where('post_id',$post_id)->pluck('rate');
 
-        Rating::where([['user_id', $request->user()->id],['post_id', $input['post_id']]])->increment('rate');
+        Rating::where([['user_id', $request->user()->id],['post_id', $post_id]])->increment('rate');
         }
     }
 

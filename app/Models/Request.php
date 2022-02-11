@@ -15,7 +15,6 @@ class Request extends Model
         'date',
         'address',
         'owner_id',
-        'applies',
         'blood_id',
     ];
 
