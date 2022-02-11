@@ -9,6 +9,7 @@ use App\Models\Blood;
 use App\Models\Donner;
 use App\Models\Apply;
 
+
 class DonnationController extends Controller
 {
 
@@ -31,19 +32,23 @@ class DonnationController extends Controller
         return $donners;
     }
 
+
     public function apply(Request $request,$request_id){
-        $input = $request->all();
-        if(Apply::where('request_id',$request_id )->exists()){
-            Apply::where([['donner_id', $request->user()->id],['request_id', $request_id]])->increment('applies');
-        }else{
-            Apply::insert([
+
+
+        if(Apply::where([['request_id',$request_id],['donner_id',$request->user()->id]])->exists())
+        {
+            return response()->json("already applies ya 3asl");
+        }
+
+       else{
+           Apply::insert([
+
             'request_id' => $request_id,
-
             'donner_id' => $request->user()->id,
-            ]);
-            $applies =Apply::where('request_id',$request_id)->pluck('applies');
+        ]);
+        }
 
-            Apply::where([['donner_id', $request->user()->id],['request_id', $request_id]])->increment('applies');
-            }
     }
+
 }

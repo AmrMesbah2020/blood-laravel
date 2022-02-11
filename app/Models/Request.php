@@ -18,5 +18,23 @@ class Request extends Model
         'blood_id',
     ];
 
+    public function ownerDetails()
+    {
+       $user= $this->belongsTo(User::class,'owner_id');
+        return $user ;
 
+    }
+
+    public function blood()
+    {
+        return  $this->belongsTo(Blood::class,'blood_id');
+    
+    }
+
+   
+
+
+
+
+  
 }

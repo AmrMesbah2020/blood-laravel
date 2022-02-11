@@ -7,7 +7,9 @@ use App\Http\Requests\PostRequest;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Rating;
+use App\Http\Resources\PostResource;
 use Illuminate\Validation\Rules\Exists;
+use Illuminate\Support\Collection;
 
 class PostController extends Controller
 {
@@ -29,21 +31,26 @@ class PostController extends Controller
         ]);
     }
 
-    public function rate(Request $request,$post_id){
+    public function rate(Request $request,$postId){
 
         $input=$request->all();
-        if(Rating::where('post_id',$post_id)->exists()){
-            Rating::where([['user_id', $request->user()->id],['post_id',$post_id]])->increment('rate');
-        }else{
-        Rating::insert([
-            'post_id' => $post_id,
-            'user_id' => $request->user()->id,
-        ]);
+        if(Rating::where([['post_id',$postId],['user_id',$request->user()->id]])->exists()){
 
-        $rate =Rating::where('post_id',$post_id)->pluck('rate');
-
-        Rating::where([['user_id', $request->user()->id],['post_id', $post_id]])->increment('rate');
+            $res=Rating::where([['post_id',$postId],['user_id',$request->user()->id]])->delete();
         }
+        else
+        {
+        Rating::insert([
+
+            'post_id' => $postId,
+            'user_id' => $request->user()->id,
+
+        ]);
+        $rate =Rating::where('post_id',$postId)->pluck('rate');
+
+        Rating::where([['user_id', $request->user()->id],['post_id', $postId]])->increment('rate');
+        }
+
     }
 
     public function allposts(){
@@ -56,5 +63,23 @@ class PostController extends Controller
         return $posts;
     }
 
+
+    public function topRatedPost(){
+
+        $posts= Rating::
+                select(Rating::raw('post_id'))
+                ->groupBy('post_id')
+                ->orderByDesc(Rating::raw('count(post_id)'))
+                ->limit(1)
+                ->get();
+
+              $post_id=$posts[0]->post_id;
+
+       $post = Post::where('post_id',$post_id)->get();
+
+
+       return PostResource::collection($post);
+
+    }
 
 }

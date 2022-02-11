@@ -18,5 +18,11 @@ class Rating extends Model
         'rate',
     ];
 
+    public function post()
+    {
+       $post= $this->belongsTo(Post::class,'user_id');
+        return $post ;
+
+    }
 
 }

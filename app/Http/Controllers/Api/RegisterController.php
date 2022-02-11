@@ -29,9 +29,7 @@ class RegisterController extends Controller
 
         $success['token'] =  $user->createToken('MyApp')->plainTextToken;
 
-        event(new Registered($user));
-
-
+        // event(new Registered($user));
         return response()->json(["done",$success], 200);
     }
 
@@ -40,17 +38,13 @@ class RegisterController extends Controller
     public function login(LoginRequest $request)
 
     {
-
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
 
             $user = Auth::user();
 
             $success['token'] =  $user->createToken('MyApp')-> plainTextToken;
 
-
-
-
-            return response()->json($success['token'] , 200);
+           return response()->json($success['token'] , 200);
 
         }else{
             return "unauthorized";
