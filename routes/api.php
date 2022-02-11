@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\DonnationController;
 use App\Http\Controllers\Api\RequestController;
 use App\Http\Controllers\Api\VerifyEmailController;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\notificationController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 
@@ -66,7 +67,10 @@ Route::post('post',[PostController::class,'store'])->middleware('auth:sanctum');
 
 // route to userRatePosts
 
-Route::post('rate',[PostController::class,'rate'])->middleware('auth:sanctum');
+Route::post('rate/{postId}',[PostController::class,'rate'])->middleware('auth:sanctum');
+
+//route to get top rated
+Route::get('toprated',[PostController::class,'topRatedPost']);
 
 //route to get all posts
 
@@ -82,7 +86,25 @@ Route::get('donners',[DonnationController::class,'donners']);
 
 // route allow donner to apply request
 
-Route::post('apply/{request}',[DonnationController::class,'apply']);
+Route::post('apply/{request}',[DonnationController::class,'apply'])->middleware('auth:sanctum');
+
+//  route display all requests
+
+Route::get('allrequests',[RequestController::class,'index']);
+
+//
+
+//route to add notification
+Route::post('addNotification',[notificationController::class,'send'])->middleware('auth:sanctum');
+
+
+
+/////////////////////////admin///////////////////////////////////////////////
+
+
+
+
+
 
 
 
