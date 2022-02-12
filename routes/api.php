@@ -103,7 +103,10 @@ Route::get('allrequests',[RequestController::class,'index']);
 Route::get('userrequests',[RequestController::class,'UserHasRequests']);
 
 //route to add notification
-Route::post('addNotification',[notificationController::class,'send'])->middleware('auth:sanctum');
+// Route::post('addNotification',[notificationController::class,'send'])->middleware('auth:sanctum');
+
+//route to get notification
+Route::get('getNotification',[notificationController::class,'get']);
 
 
 

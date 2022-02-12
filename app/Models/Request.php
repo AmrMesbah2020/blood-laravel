@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Request extends Model
 {
+    protected $table = 'requests';
+    protected $primaryKey = 'request_id';
     use HasFactory;
     protected $fillable=[
         'phone',

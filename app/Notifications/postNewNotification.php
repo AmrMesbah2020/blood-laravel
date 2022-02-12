@@ -5,12 +5,11 @@ namespace App\Notifications;
 use App\Models\Request;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Log;
+use App\Http\Resources\RequestsResource;
 
-
-class postNewNotification extends Notification implements ShouldQueue
+class postNewNotification extends Notification
 {
     use Queueable;
 
@@ -20,9 +19,12 @@ class postNewNotification extends Notification implements ShouldQueue
      * @return void
      */
     private $request;
-    public function __construct(Request $request)
+    // private $user;
+    public function __construct($request)
     {
         $this->request=$request;
+        // $userId = $request->user_id;
+        // $this->user = User::find($userId);
     }
 
     /**
@@ -46,9 +48,7 @@ class postNewNotification extends Notification implements ShouldQueue
     public function toDatabase($notifiable)
     {
         return [
-
-            'phone'=>$this->request->phone,
-         
-        ];
+            'data'=>new RequestsResource($this->request),
+         ];
     }
 }
