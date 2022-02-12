@@ -19,6 +19,7 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array<int, string>
      */
+
     protected $fillable = [
         'name',
         'email',
@@ -49,5 +50,13 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-   
+    public function profile(){
+        return $this->hasOne(Donner::class,'donner_id');
+    }
+
+    public function requests(){
+        return $this->belongsTo(Request::class,'owner_id');
+    }
+
+
 }

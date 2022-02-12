@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DonationRequest;
+use App\Http\Resources\DonnerResource;
 use Illuminate\Http\Request;
 use App\Models\Blood;
 use App\Models\Donner;
@@ -17,7 +18,6 @@ class DonnationController extends Controller
     public function store(DonationRequest $request){
 
         $input = $request->all();
-        dd($request->user());
         $blood_id= Blood::where([['rhd',$input['rhd']],['blood_group',$input['blood_group']]])->pluck('blood_id');
 
         Donner::create([
@@ -29,7 +29,7 @@ class DonnationController extends Controller
 
     public function donners(){
         $donners = Donner::with('user')->get();
-        return $donners;
+        return DonnerResource::collection($donners);
     }
 
 
@@ -50,5 +50,7 @@ class DonnationController extends Controller
         }
 
     }
+
+
 
 }

@@ -9,7 +9,8 @@ use App\Http\Controllers\Api\VerifyEmailController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\notificationController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
-
+use App\Http\Resources\UserResource;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +24,8 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    $user = User::where('id',$request->user()->id)->get();
+    return UserResource::collection($user);
 });
 
 
@@ -67,18 +69,18 @@ Route::post('post',[PostController::class,'store'])->middleware('auth:sanctum');
 
 // route to userRatePosts
 
-
-
-
 Route::post('rate/{postId}',[PostController::class,'rate'])->middleware('auth:sanctum');
 
 //route to get top rated
 Route::get('toprated',[PostController::class,'topRatedPost']);
 
-
 //route to get all posts
 
 Route::get('allposts',[PostController::class,'allposts']);
+
+//route to get specific post
+
+Route::get('post/{postId}',[PostController::class,'post']);
 
 // route to get available posts "posts has access true"
 
@@ -92,12 +94,13 @@ Route::get('donners',[DonnationController::class,'donners']);
 
 Route::post('apply/{request}',[DonnationController::class,'apply'])->middleware('auth:sanctum');
 
-
 //  route display all requests
 
 Route::get('allrequests',[RequestController::class,'index']);
 
-//
+// route display user requests
+
+Route::get('userrequests',[RequestController::class,'UserHasRequests']);
 
 //route to add notification
 Route::post('addNotification',[notificationController::class,'send'])->middleware('auth:sanctum');

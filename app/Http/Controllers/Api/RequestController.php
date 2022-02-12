@@ -11,6 +11,7 @@ use App\Http\Resources\DonnerResource;
 use App\Models\Request;
 use  App\Models\Blood;
 use  App\Models\Apply;
+use  App\Models\User;
 
 use App\Notifications\postNewNotification;
 use Notification;
@@ -36,6 +37,7 @@ class RequestController extends Controller
             'date'=>$input['date'],
             'address'=>$input['address'],
             'blood_id'=>$blood_id[0],
+
             ]);
 
     }
@@ -43,22 +45,21 @@ class RequestController extends Controller
 
     public function index(){
         $requests=Request::all();
- 
+
         return RequestsResource::collection($requests);
     }
 
-    // public function numberOfDonners(){
-       
-    //     $donners= Apply::
-    //             select(Apply::raw('count(donner_id)'))
-    //             ->groupBy('request_id')
-    //             ->get();
-                
-    //         //   return ($donners);
-         
-    // //    $post = Post::where('post_id',$post_id)->get();
+    public function numberOfDonners($request_id){
+        return
+        Apply::select(Apply::raw('count(donner_id)'))->where('request_id',$request_id)
+        ->groupBy('request_id')
+        ->pluck('count(donner_id)');
+    }
 
-    //    return RequestsResource::collection($donners);
+    public function UserHasRequests(Request $request){
+        $requests = User::with('requests')->where('id',$request->user()->id)->get();
+        return $request;
+    }
 
-    // }
+
 }

@@ -1,9 +1,13 @@
 <?php
 
 namespace App\Http\Resources;
+
+use App\Http\Controllers\Api\DonnationController;
+use App\Http\Controllers\Api\RequestController;
 use App\Models\Apply;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BloodResource;
 
 class RequestsResource extends JsonResource
 {
@@ -16,6 +20,7 @@ class RequestsResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id'=>$this->request_id,
             'address'=>$this->address,
             'phone' =>$this->phone,
             'description' =>$this->description,
@@ -23,7 +28,7 @@ class RequestsResource extends JsonResource
             'date' =>$this->date,
             'blood'=>new BloodResource($this->blood),
             'owner_details'=>new UserResource($this->ownerDetails),
-            // 'donners'=>$this->numberOfDonners($this->id)
+            'number_of_donners'=>RequestController::numberOfDonners($this->request_id),
         ];
     }
 }

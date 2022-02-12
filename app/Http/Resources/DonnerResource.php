@@ -15,7 +15,9 @@ class DonnerResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'donners'=>new UserResource($this->user)
+            'last_date_of_donnation'=>$this->last_date_of_donnation,
+            'blood_id'=>new BloodResource($this->blood),
+            // 'donners'=>new UserResource($this->user)
         ];
     }
 }

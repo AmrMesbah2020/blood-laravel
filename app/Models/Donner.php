@@ -18,7 +18,13 @@ class Donner extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class,'donner_id');
+        return $this->belongsTo(User::class,'id');
     }
+
+    public function blood(){
+        return $this->belongsTo(Blood::class,'blood_id');
+    }
+
+
 
 }

@@ -82,4 +82,9 @@ class PostController extends Controller
 
     }
 
+    public function post($postId){
+        $post=Post::find($postId);
+        return new PostResource($post);
+    }
+
 }
