@@ -11,12 +11,19 @@ use App\Http\Resources\DonnerResource;
 use App\Models\Request;
 use  App\Models\Blood;
 use  App\Models\Apply;
-
+use App\Models\User;
 use App\Notifications\postNewNotification;
+use Illuminate\Support\Facades\Log;
 use Notification;
 
 class RequestController extends Controller
 {
+    private $notificationController;
+
+    public function __construct(notificationController $notificationController)
+    {
+        $this->notificationController = $notificationController;
+    }
 
     public function store(MakeRequesy $request){
 
@@ -28,7 +35,7 @@ class RequestController extends Controller
         // dd($blood_id);
         // dd($request->user()->id);
 
-            Request::create([
+            $request = Request::create([
             'phone'=>$input['phone'],
             'description'=>$input['description'],
             'quantity'=>$input['quantity'],
@@ -37,6 +44,10 @@ class RequestController extends Controller
             'address'=>$input['address'],
             'blood_id'=>$blood_id[0],
             ]);
+            $userID = auth()->user()->id;
+            $user = User::where('id',$userID)->first();
+            $user->notify(new postNewNotification($request));
+            // $this->notificationController->send($request->request_id);
 
     }
 
