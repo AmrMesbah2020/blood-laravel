@@ -18,10 +18,7 @@ class Post extends Model
         'access',
     ];
 
-    public function rate()
-    {
-        return $this->belongsTo(Rating::class,'post_id');
-    }
+  
 
     public function user()
     {

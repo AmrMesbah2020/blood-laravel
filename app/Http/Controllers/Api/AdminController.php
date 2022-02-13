@@ -49,4 +49,9 @@ class AdminController extends Controller
     {
         Article::where('article_id', $ArticleId)->delete();
     }
+
+    public function latestArticle(){
+
+       return Article::select()->orderByDesc('created_at')->limit(1)->get();
+    }
 }

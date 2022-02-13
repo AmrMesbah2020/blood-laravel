@@ -10,6 +10,8 @@ class Rating extends Model
     use HasFactory;
 
     protected $table = 'userRatePosts';
+    protected $primaryKey = 'post_id';
+
     public $timestamps = false;
 
     protected $fillable=[

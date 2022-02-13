@@ -55,7 +55,7 @@ class PostController extends Controller
     public function allposts()
     {
         $posts = Post::all();
-        return $posts;
+        return PostResource::collection($posts);
     }
 
     public function posts()
@@ -90,7 +90,15 @@ class PostController extends Controller
 
     public function UserHasPosts(Request $request)
     {
-        $posts = Post::where([['user_id', $request->user()->id],['access',true]])->get();
+        $posts = Post::where([['user_id', $request->user()->id],['access',true]])->orderByDesc('created_at')->limit(5)->get();
         return PostResource::collection($posts);
     }
+
+    public function postRate($post_id)
+    {
+        return Rating::select(Rating::raw('count(post_id)'))->where('post_id',$post_id)->pluck('count(post_id)');
+    }
+
+    
+ 
 }
