@@ -19,6 +19,7 @@ class RequestsResource extends JsonResource
      */
     public function toArray($request)
     {
+        dd($request);
         return [
             'id'=>$this->request_id,
             'address'=>$this->address,
@@ -28,7 +29,11 @@ class RequestsResource extends JsonResource
             'date' =>$this->date,
             'blood'=>new BloodResource($this->blood),
             'owner_details'=>new UserResource($this->ownerDetails),
-            'number_of_donners'=>RequestController::numberOfDonners($this->request_id),
+            'number_of_donners'=>app('App\Http\Controllers\Api\RequestController')->numberOfDonners($this->request_id),
+
+            // (new RequestController)->numberOfDonners($this->request_id);
+            // RequestController::numberOfDonners($this->request_id),
+             
         ];
     }
 }

@@ -7,14 +7,15 @@ use App\Http\Requests\MakeRequesy;
 use App\Http\Resources\RequestsResource;
 use App\Http\Resources\DonnerResource;
 
-// use Illuminate\Http\Request;
-use App\Models\Request;
+use Illuminate\Http\Request;
+use App\Models\Request as ModelRequest;
 use  App\Models\Blood;
 use  App\Models\Apply;
 use App\Models\User;
 use App\Notifications\postNewNotification;
 use Illuminate\Support\Facades\Log;
 use Notification;
+
 
 class RequestController extends Controller
 {
@@ -35,7 +36,7 @@ class RequestController extends Controller
         // dd($blood_id);
         // dd($request->user()->id);
 
-            $request = Request::create([
+            $request = ModelRequest::create([
             'phone'=>$input['phone'],
             'description'=>$input['description'],
             'quantity'=>$input['quantity'],
@@ -54,7 +55,7 @@ class RequestController extends Controller
 
 
     public function index(){
-        $requests=Request::all();
+        $requests=ModelRequest::all();
 
         return RequestsResource::collection($requests);
     }
