@@ -15,9 +15,10 @@ class BloodResource extends JsonResource
     public function toArray($request)
     {
         return [
-    
+
             'blood_group'=>$this->blood_group,
-            'rhd'=>$this->rhd
+            'rhd'=>$this->rhd,
+            'availability'=>$this->availability,
         ];
     }
 }

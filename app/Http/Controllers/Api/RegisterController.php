@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\UpdateRequest;
 use Illuminate\Auth\Events\Registered;
 
 class RegisterController extends Controller
@@ -20,8 +21,13 @@ class RegisterController extends Controller
 
     public function register(RegisterRequest $request)
     {
-
         $input = $request->all();
+
+        if(User::where('email',$input['email'])->exists()){
+            return "this email has an acount";
+        }else{
+
+
 
         $input['password'] = bcrypt($input['password']);
 
@@ -31,6 +37,7 @@ class RegisterController extends Controller
 
         // event(new Registered($user));
         return response()->json(["done",$success], 200);
+        }
     }
 
 
@@ -50,6 +57,14 @@ class RegisterController extends Controller
             return "unauthorized";
         }
 
+    }
+
+    public function update(UpdateRequest $request)
+    {
+
+        $input=$request->all();
+
+        User::where('id',$request->user()->id)->update($input);
     }
 
 

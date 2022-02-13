@@ -17,14 +17,19 @@ class DonnationController extends Controller
 
     public function store(DonationRequest $request){
 
+
         $input = $request->all();
         $blood_id= Blood::where([['rhd',$input['rhd']],['blood_group',$input['blood_group']]])->pluck('blood_id');
-
+        if(Donner::where('donner_id',$request->user()->id)->exists()){
+            return "already exist ya 3sl";
+        }else{
         Donner::create([
             'last_date_of_donnation'=>$input['last_date_of_donnation'],
             'donner_id'=>$request->user()->id,
             'blood_id'=>$blood_id[0],
         ]);
+        Blood::where('blood_id',$blood_id)->increment('availability');
+    }
     }
 
     public function donners(){

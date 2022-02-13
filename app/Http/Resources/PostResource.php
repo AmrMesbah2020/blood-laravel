@@ -20,7 +20,7 @@ class PostResource extends JsonResource
             'content'=>$this->content,
             'image'=>$this->image,
             'owner'=>new UserResource($this->user),
- 
+
     ];
     }
 }
