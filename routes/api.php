@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\RequestController;
 use App\Http\Controllers\Api\VerifyEmailController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\notificationController;
+use App\Http\Controllers\Api\BloodController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -29,7 +30,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-// route ro registration
+// route for registration
 
 Route::post('register', [RegisterController::class, 'register']);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,10 +52,6 @@ Route::post('/email/verify/resend', function (Request $request) {
 
 Route::post('login', [RegisterController::class, 'login']);
 
-// route to get all users
-
-Route::get('users',[RegisterController::class,'index']);
-
 //route to make request
 
 Route::post('request',[RequestController::class,'store'])->middleware('auth:sanctum');
@@ -73,10 +70,6 @@ Route::post('rate/{postId}',[PostController::class,'rate'])->middleware('auth:sa
 
 //route to get top rated
 Route::get('toprated',[PostController::class,'topRatedPost']);
-
-//route to get all posts
-
-Route::get('allposts',[PostController::class,'allposts']);
 
 //route to get specific post
 
@@ -100,19 +93,45 @@ Route::get('allrequests',[RequestController::class,'index']);
 
 // route display user requests
 
-Route::get('userrequests',[RequestController::class,'UserHasRequests']);
+Route::get('userrequests',[RequestController::class,'UserHasRequests'])->middleware('auth:sanctum');
 
-//route to add notification
-// Route::post('addNotification',[notificationController::class,'send'])->middleware('auth:sanctum');
+// route display user posts
+Route::get('userposts',[PostController::class,'UserHasPosts'])->middleware('auth:sanctum');
 
 //route to get notification
 Route::get('getNotification',[notificationController::class,'get']);
+
+//route to edit profile
+Route::post('update-profile',[RegisterController::class,'update'])->middleware('auth:sanctum');
+
+Route::get('blood-availability',[BloodController::class,'availability']);
 
 
 
 /////////////////////////admin///////////////////////////////////////////////
 
+//route to add admin
 
+Route::post('add-admin',[AdminController::class,'addAdmin'])->middleware(['auth:sanctum','Is_Admin']);
+
+//route to write new article
+Route::post('add-article',[AdminController::class,'addArticle'])->middleware(['auth:sanctum','Is_Admin']);
+
+// route to publish post
+Route::post('publishpost/{postId}',[AdminController::class,'publish'])->middleware(['auth:sanctum','Is_Admin']);
+
+//route to delete post
+Route::post('delete-post/{postId}',[AdminController::class,'deletePost'])->middleware(['auth:sanctum','Is_Admin']);
+
+// route to delete article
+Route::post('delete-article/{articleId}',[AdminController::class,'deleteArticle'])->middleware(['auth:sanctum','Is_Admin']);
+
+//route to get all posts
+
+Route::get('allposts',[PostController::class,'allposts'])->middleware(['auth:sanctum','Is_Admin']);
+
+// route to get all users
+Route::get('users',[RegisterController::class,'index'])->middleware(['auth:sanctum','Is_Admin']);
 
 
 

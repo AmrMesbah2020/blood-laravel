@@ -7,8 +7,8 @@ use App\Http\Requests\MakeRequesy;
 use App\Http\Resources\RequestsResource;
 use App\Http\Resources\DonnerResource;
 
-// use Illuminate\Http\Request;
-use App\Models\Request;
+use Illuminate\Http\Request;
+use App\Models\Request as RequestModel;
 use  App\Models\Blood;
 use  App\Models\Apply;
 use App\Models\User;
@@ -25,51 +25,53 @@ class RequestController extends Controller
         $this->notificationController = $notificationController;
     }
 
-    public function store(MakeRequesy $request){
+    public function store(MakeRequesy $request)
+    {
 
         $input = $request->all();
         // dd($input);
 
-        $blood_id= Blood::where([['rhd',$input['rhd']],['blood_group',$input['blood_group']]])->pluck('blood_id');
+        $blood_id = Blood::where([['rhd', $input['rhd']], ['blood_group', $input['blood_group']]])->pluck('blood_id');
 
         // dd($blood_id);
         // dd($request->user()->id);
 
-            $request = Request::create([
-            'phone'=>$input['phone'],
-            'description'=>$input['description'],
-            'quantity'=>$input['quantity'],
-            'owner_id'=>$request->user()->id,
-            'date'=>$input['date'],
-            'address'=>$input['address'],
-            'blood_id'=>$blood_id[0],
+        $request = RequestModel::create([
+            'phone' => $input['phone'],
+            'description' => $input['description'],
+            'quantity' => $input['quantity'],
+            'owner_id' => $request->user()->id,
+            'date' => $input['date'],
+            'address' => $input['address'],
+            'blood_id' => $blood_id[0],
 
-            ]);
-            $userID = auth()->user()->id;
-            $user = User::where('id',$userID)->first();
-            $user->notify(new postNewNotification($request));
-            // $this->notificationController->send($request->request_id);
+        ]);
+        $userID = auth()->user()->id;
+        $user = User::where('id', $userID)->first();
+        $user->notify(new postNewNotification($request));
+        // $this->notificationController->send($request->request_id);
 
     }
 
 
-    public function index(){
-        $requests=Request::all();
+    public function index()
+    {
+        $requests = RequestModel::all();
 
         return RequestsResource::collection($requests);
     }
 
-    public function numberOfDonners($request_id){
+    public function numberOfDonners($request_id)
+    {
         return
-        Apply::select(Apply::raw('count(donner_id)'))->where('request_id',$request_id)
-        ->groupBy('request_id')
-        ->pluck('count(donner_id)');
+            Apply::select(Apply::raw('count(donner_id)'))->where('request_id', $request_id)
+            ->groupBy('request_id')
+            ->pluck('count(donner_id)');
     }
 
-    public function UserHasRequests(Request $request){
-        $requests = User::with('requests')->where('id',$request->user()->id)->get();
-        return $request;
+    public function UserHasRequests(Request $request)
+    {
+        $requests = RequestModel::where('owner_id',$request->user()->id)->get();
+        return $requests;
     }
-
-
 }

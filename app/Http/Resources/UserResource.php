@@ -20,6 +20,7 @@ class UserResource extends JsonResource
             'address'=>$this->address,
             'gender'=>$this->gender,
             'phone'=>$this->phone,
+            'avatar'=>$this->avatar,
             'donnation_data'=>new DonnerResource($this->profile),
         ];
     }
