@@ -22,7 +22,7 @@ class RegisterController extends Controller
         return $users;
     }
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
         $input = $request->all();
 
