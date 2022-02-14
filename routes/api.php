@@ -113,6 +113,17 @@ Route::get('last-article',[AdminController::class,'latestArticle']);
 //route to get number of applies ber donner
 Route::get('donner-applies',[DonnationController::class,'DonnerAplies'])->middleware('auth:sanctum');
 
+//route to get all articles
+Route::get('allarticles',[AdminController::class,'allarticles']);
+
+//route to leave feedback
+Route::post('feedback',[AdminController::class,'feedback']);
+
+//route to get specific article
+Route::get('articles/{articleId}',[AdminController::class,'articleDetails']);
+
+
+
 
 /////////////////////////admin///////////////////////////////////////////////
 
@@ -135,6 +146,7 @@ Route::post('delete-article/{articleId}',[AdminController::class,'deleteArticle'
 //route to get all posts
 
 Route::get('allposts',[PostController::class,'allposts'])->middleware(['auth:sanctum','Is_Admin']);
+
 
 // route to get all users
 Route::get('users',[RegisterController::class,'index'])->middleware(['auth:sanctum','Is_Admin']);
