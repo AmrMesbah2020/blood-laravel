@@ -51,10 +51,17 @@ class DonnationController extends Controller
 
             'request_id' => $request_id,
             'donner_id' => $request->user()->id,
-        ]);
-        }
+           ]);
 
     }
+
+        }
+        public function DonnerAplies(Request $request){
+            
+            $input=$request->user()->id;
+           return Apply::select(Apply::raw('count(donner_id)'))->where('donner_id',$input)->pluck('count(donner_id)');
+
+        }
 
 
 

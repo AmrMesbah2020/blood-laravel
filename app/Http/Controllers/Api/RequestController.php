@@ -8,6 +8,7 @@ use App\Http\Resources\RequestsResource;
 use App\Http\Resources\DonnerResource;
 
 use Illuminate\Http\Request;
+
 use App\Models\Request as RequestModel;
 use  App\Models\Blood;
 use  App\Models\Apply;
@@ -15,6 +16,7 @@ use App\Models\User;
 use App\Notifications\postNewNotification;
 use Illuminate\Support\Facades\Log;
 use Notification;
+
 
 class RequestController extends Controller
 {
@@ -36,6 +38,7 @@ class RequestController extends Controller
         // dd($blood_id);
         // dd($request->user()->id);
 
+
         $request = RequestModel::create([
             'phone' => $input['phone'],
             'description' => $input['description'],
@@ -52,6 +55,7 @@ class RequestController extends Controller
         // $this->notificationController->send($request->request_id);
 
     }
+
 
 
     public function index()

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
@@ -10,6 +11,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UpdateRequest;
 use Illuminate\Auth\Events\Registered;
+
+use function PHPSTORM_META\type;
 
 class RegisterController extends Controller
 {
@@ -65,7 +68,10 @@ class RegisterController extends Controller
         User::where('id',$request->user()->id)->update($input);
     }
 
+    public function calcAge($birtdate){
 
-
+        (int)$years=Carbon::parse($birtdate)->diff(Carbon::now())->format('%y');
+        return (int)$years;
+    }
 
 }

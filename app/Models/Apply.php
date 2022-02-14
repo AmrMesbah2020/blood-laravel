@@ -13,6 +13,7 @@ class Apply extends Model
     protected $table = 'donnerApplyRequest';
 
 
+
     protected $fillable =[
         'request_id',
         'donner_id',

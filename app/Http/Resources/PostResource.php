@@ -15,11 +15,12 @@ class PostResource extends JsonResource
     public function toArray($request)
     {
         return  [
-
+            'id'=>$this->post_id,
             'title'=>$this->title,
             'content'=>$this->content,
             'image'=>$this->image,
             'owner'=>new UserResource($this->user),
+            'rate'=>app('App\Http\Controllers\Api\PostController')->postRate($this->post_id)
 
     ];
     }

@@ -104,8 +104,14 @@ Route::get('getNotification',[notificationController::class,'get']);
 //route to edit profile
 Route::post('update-profile',[RegisterController::class,'update'])->middleware('auth:sanctum');
 
+//route to get availability of blood
 Route::get('blood-availability',[BloodController::class,'availability']);
 
+//route to get last articles
+Route::get('last-article',[AdminController::class,'latestArticle']);
+
+//route to get number of applies ber donner
+Route::get('donner-applies',[DonnationController::class,'DonnerAplies'])->middleware('auth:sanctum');
 
 
 /////////////////////////admin///////////////////////////////////////////////
@@ -132,6 +138,8 @@ Route::get('allposts',[PostController::class,'allposts'])->middleware(['auth:san
 
 // route to get all users
 Route::get('users',[RegisterController::class,'index'])->middleware(['auth:sanctum','Is_Admin']);
+
+
 
 
 
