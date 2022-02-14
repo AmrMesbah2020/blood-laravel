@@ -114,7 +114,10 @@ Route::get('last-article',[AdminController::class,'latestArticle']);
 Route::get('donner-applies',[DonnationController::class,'DonnerAplies'])->middleware('auth:sanctum');
 
 //route to get all articles
-Route::get('allarticles',[AdminController::class,'allarticles'])->middleware(['auth:sanctum']);
+Route::get('allarticles',[AdminController::class,'allarticles']);
+
+//route to leave feedback
+Route::post('feedback',[AdminController::class,'feedback']);
 
 
 
