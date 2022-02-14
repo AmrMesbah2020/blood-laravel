@@ -19,15 +19,13 @@ class RegisterController extends Controller
         return $users;
     }
 
-    public function register(RegisterRequest $request)
+    public function register(Request $request)
     {
         $input = $request->all();
 
         if(User::where('email',$input['email'])->exists()){
-            return "this email has an acount";
+            return response()->json(["this email already has acount"],403);
         }else{
-
-
 
         $input['password'] = bcrypt($input['password']);
 
@@ -35,7 +33,7 @@ class RegisterController extends Controller
 
         $success['token'] =  $user->createToken('MyApp')->plainTextToken;
 
-        // event(new Registered($user));
+        event(new Registered($user));
         return response()->json(["done",$success], 200);
         }
     }
@@ -54,7 +52,7 @@ class RegisterController extends Controller
            return response()->json($success['token'] , 200);
 
         }else{
-            return "unauthorized";
+            return response()->json("invalid email or password" , 403);
         }
 
     }

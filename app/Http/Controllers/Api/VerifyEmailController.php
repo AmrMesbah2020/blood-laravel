@@ -23,7 +23,7 @@ class VerifyEmailController extends Controller
             event(new Verified($user));
         }
 
-        return redirect(env('FRONT_URL') . '/email/verify/success');
+        return redirect(env('FRONT_URL'));
     }
 
 }
