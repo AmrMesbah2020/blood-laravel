@@ -70,4 +70,9 @@ class AdminController extends Controller
         return response()->json("ya 3asl",200);
 
     }
+
+    public function articleDetails($articleId){
+        return Article::where('article_id',$articleId)->get();
+
+    }
 }

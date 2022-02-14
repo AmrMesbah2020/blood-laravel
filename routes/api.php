@@ -119,6 +119,10 @@ Route::get('allarticles',[AdminController::class,'allarticles']);
 //route to leave feedback
 Route::post('feedback',[AdminController::class,'feedback']);
 
+//route to get specific article
+Route::get('articles/{articleId}',[AdminController::class,'articleDetails']);
+
+
 
 
 /////////////////////////admin///////////////////////////////////////////////
