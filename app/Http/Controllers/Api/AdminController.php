@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Article;
 use App\Models\Post;
 use App\Http\Requests\ArticleRequest;
+use App\Models\Feedback;
 
 class AdminController extends Controller
 {
@@ -58,6 +59,20 @@ class AdminController extends Controller
     public function allarticles(){
 
         return Article::all();
+    }
+
+    public function feedback(Request $request){
+        
+        $input = $request->all();
+
+        Feedback::create($input);
+
+        return response()->json("ya 3asl",200);
+
+    }
+
+    public function articleDetails($articleId){
+        return Article::where('article_id',$articleId)->get();
 
     }
 }

@@ -116,6 +116,13 @@ Route::get('donner-applies',[DonnationController::class,'DonnerAplies'])->middle
 //route to get all articles
 Route::get('allarticles',[AdminController::class,'allarticles']);
 
+//route to leave feedback
+Route::post('feedback',[AdminController::class,'feedback']);
+
+//route to get specific article
+Route::get('articles/{articleId}',[AdminController::class,'articleDetails']);
+
+
 
 
 /////////////////////////admin///////////////////////////////////////////////
