@@ -60,8 +60,8 @@ class PostController extends Controller
 
     public function posts()
     {
-        $posts = Post::join('userRatePosts', 'posts.post_id', '=', 'userRatePosts.post_id')->where('access', true)->get();
-        return $posts;
+        $posts = Post::where('access', true)->get();
+        return PostResource::collection($posts);
     }
 
 
@@ -99,6 +99,6 @@ class PostController extends Controller
         return Rating::select(Rating::raw('count(post_id)'))->where('post_id',$post_id)->pluck('count(post_id)');
     }
 
-    
- 
+
+
 }

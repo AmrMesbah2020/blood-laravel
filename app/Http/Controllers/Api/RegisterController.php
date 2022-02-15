@@ -50,7 +50,7 @@ class RegisterController extends Controller
 
             $user = Auth::user();
 
-            $success['token'] =  $user->createToken('MyApp')-> plainTextToken;
+            $success['token'] =  $user->createToken('MyApp')->plainTextToken;
 
            return response()->json($success['token'] , 200);
 
