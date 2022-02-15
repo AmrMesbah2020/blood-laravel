@@ -68,14 +68,16 @@ class RequestController extends Controller
     public function numberOfDonners($request_id)
     {
         return
-            Apply::select(Apply::raw('count(donner_id)'))->where('request_id', $request_id)
-            ->groupBy('request_id')
-            ->pluck('count(donner_id)');
+            Apply::select('donner_id')->where("request_id",$request_id)->count();
     }
 
     public function UserHasRequests(Request $request)
     {
         $requests = RequestModel::where('owner_id',$request->user()->id)->get();
         return $requests;
+    }
+
+    public function OverallRequests(){
+       return RequestModel::select('request_id')->count();
     }
 }

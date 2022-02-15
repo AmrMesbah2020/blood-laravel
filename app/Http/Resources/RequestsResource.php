@@ -19,7 +19,6 @@ class RequestsResource extends JsonResource
      */
     public function toArray($request)
     {
-        dd($request);
         return [
             'id'=>$this->request_id,
             'address'=>$this->address,
@@ -33,7 +32,7 @@ class RequestsResource extends JsonResource
 
             // (new RequestController)->numberOfDonners($this->request_id);
             // RequestController::numberOfDonners($this->request_id),
-             
+
         ];
     }
 }

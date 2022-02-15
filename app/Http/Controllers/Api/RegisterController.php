@@ -27,7 +27,7 @@ class RegisterController extends Controller
         $input = $request->all();
 
         if(User::where('email',$input['email'])->exists()){
-            return "this email has an acount";
+            return response()->json(["this email already has acount"],403);
         }else{
 
         $input['password'] = bcrypt($input['password']);
@@ -50,12 +50,12 @@ class RegisterController extends Controller
 
             $user = Auth::user();
 
-            $success['token'] =  $user->createToken('MyApp')-> plainTextToken;
+            $success['token'] =  $user->createToken('MyApp')->plainTextToken;
 
            return response()->json($success['token'] , 200);
 
         }else{
-            return "unauthorized";
+            return response()->json("invalid email or password" , 403);
         }
 
     }

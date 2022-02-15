@@ -122,6 +122,9 @@ Route::post('feedback',[AdminController::class,'feedback']);
 //route to get specific article
 Route::get('articles/{articleId}',[AdminController::class,'articleDetails']);
 
+//route to get number of requests overall
+Route::get('overall-requests',[RequestController::class,'OverallRequests']);
+
 
 
 
