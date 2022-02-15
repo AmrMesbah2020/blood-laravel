@@ -27,9 +27,15 @@ class MakeRequesy extends FormRequest
             'phone'=>'required|max:15',
             'description'=>'required|',
             'quantity'=>'required',
-            'date'=>'required',
+            'date'=>'date_format:Y-m-d|after:'.date('Y-m-d'),
             'address'=>'required',
 
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'title' => 'Invalid Date after today',
         ];
     }
 }
