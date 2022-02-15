@@ -96,7 +96,7 @@ class PostController extends Controller
 
     public function postRate($post_id)
     {
-        return Rating::select(Rating::raw('count(post_id)'))->where('post_id',$post_id)->pluck('count(post_id)');
+        return Rating::select('post_id')->where('post_id',$post_id)->count();
     }
 
 
