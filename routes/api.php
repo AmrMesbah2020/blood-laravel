@@ -150,12 +150,13 @@ Route::post('delete-post/{postId}',[AdminController::class,'deletePost'])->middl
 Route::post('delete-article/{articleId}',[AdminController::class,'deleteArticle'])->middleware(['auth:sanctum','Is_Admin']);
 
 //route to get all posts
-
 Route::get('allposts',[PostController::class,'allposts'])->middleware(['auth:sanctum','Is_Admin']);
-
 
 // route to get all users
 Route::get('users',[RegisterController::class,'index'])->middleware(['auth:sanctum','Is_Admin']);
+
+//route to get feedback
+Route::get('all-feedback',[AdminController::class,'getFeedback'])->middleware(['auth:sanctum','Is_Admin']);
 
 
 
