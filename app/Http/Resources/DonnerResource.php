@@ -17,7 +17,7 @@ class DonnerResource extends JsonResource
         return [
             'last_date_of_donnation'=>$this->last_date_of_donnation,
             'blood_id'=>new BloodResource($this->blood),
-            // 'donners'=>new UserResource($this->user)
+            'donner_data'=>app('App\Http\Controllers\Api\DonnationController')->donnerData($this->donner_id)
         ];
     }
 }

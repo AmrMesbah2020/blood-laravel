@@ -72,11 +72,9 @@ class RequestController extends Controller
     }
 
     public function UserHasRequests(Request $request)
-    {  
-        $numberOfRequests=RequestModel::where('owner_id',$request->user()->id)->count();
-        $requests = RequestModel::where('owner_id',$request->user()->id)->orderByDesc('created_at')->get();
-        
-        return [RequestsResource::collection($requests),$numberOfRequests];
+    {
+        $requests = RequestModel::where('owner_id',$request->user()->id)->get();
+        return RequestsResource::collection($requests);
     }
 
     public function OverallRequests(){

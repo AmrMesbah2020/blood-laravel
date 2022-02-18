@@ -17,8 +17,16 @@ class PostController extends Controller
 
     public function store(PostRequest $request)
     {
-
         $input = $request->all();
+
+        // if($request->hasFile('image')){
+        //     $CompleteFileName=$request->file('image')->getClientOriginalName();
+        //     $fileNameOnly=pathinfo($CompleteFileName,PATHINFO_FILENAME);
+        //     $extension=$request->file('image')->getClientOriginalExtension();
+        //     $comPic=str_replace(' ','_',$fileNameOnly).'_'.rand().'_'.time().'.'.$extension;
+        //     $path=$request->file('image')->storeAs();
+        //     dd($comPic);
+        // }
 
         if ($path = $request->file('image')) {
             $path = $request->file('image')->store('post_images');
@@ -36,7 +44,6 @@ class PostController extends Controller
 
     public function rate(Request $request, $postId)
     {
-
         $input = $request->all();
         if (Rating::where([['post_id', $postId], ['user_id', $request->user()->id]])->exists()) {
 
@@ -100,6 +107,10 @@ class PostController extends Controller
     public function postRate($post_id)
     {
         return Rating::select('post_id')->where('post_id',$post_id)->count();
+    }
+
+    public function likedposts(Request $request){
+       return Rating::select('post_id')->where('user_id',$request->user()->id)->pluck('post_id');
     }
 
 
