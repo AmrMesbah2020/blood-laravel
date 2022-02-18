@@ -22,6 +22,8 @@ class PostController extends Controller
 
         if ($path = $request->file('image')) {
             $path = $request->file('image')->store('post_images');
+            // $extension = $request->file('image')->extension(); 
+            dd($path);
         }
 
         Post::create([
@@ -90,8 +92,9 @@ class PostController extends Controller
 
     public function UserHasPosts(Request $request)
     {
+        $numberPosts=Post::where([['user_id', $request->user()->id],['access',true]])->count();
         $posts = Post::where([['user_id', $request->user()->id],['access',true]])->orderByDesc('created_at')->limit(5)->get();
-        return PostResource::collection($posts);
+        return [PostResource::collection($posts),$numberPosts];
     }
 
     public function postRate($post_id)

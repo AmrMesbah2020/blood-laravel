@@ -58,8 +58,7 @@ class DonnationController extends Controller
         }
         public function DonnerAplies(Request $request){
             
-            $input=$request->user()->id;
-           return Apply::select(Apply::raw('count(donner_id)'))->where('donner_id',$input)->pluck('count(donner_id)');
+            return Apply::where('donner_id',$request->user()->id)->count();
 
         }
 
