@@ -36,7 +36,7 @@ class RegisterController extends Controller
 
         $success['token'] =  $user->createToken('MyApp')->plainTextToken;
 
-        event(new Registered($user));
+      //  event(new Registered($user));
         return response()->json(["done",$success], 200);
         }
     }

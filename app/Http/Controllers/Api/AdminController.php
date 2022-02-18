@@ -53,7 +53,7 @@ class AdminController extends Controller
 
     public function latestArticle(){
 
-       return Article::select()->orderByDesc('created_at')->limit(1)->get();
+       return Article::select()->orderByDesc('created_at')->limit(3)->get();
     }
 
     public function allarticles(){
