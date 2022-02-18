@@ -26,7 +26,6 @@ class PostRequest extends FormRequest
         return [
             'title'=>'required|max:40|min:10',
             'content'=>'required|min:100|max:200',
-            'image'=>'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ];
     }
 
@@ -39,8 +38,6 @@ class PostRequest extends FormRequest
             'content.required'=>' content field is required.',
             'content.min'=>'for content min input must be at least 100 chars.',
             'content.max'=>'for content max input must be at least 200 chars.',
-            'image.mime'=>'invalid iamge',
-            'image.max'=>'max size of image is 2 mb',
 
         ];
     }

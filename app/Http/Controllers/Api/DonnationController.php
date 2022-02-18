@@ -41,10 +41,10 @@ class DonnationController extends Controller
 
     public function apply(Request $request,$request_id){
 
-
+        if(Donner::where('donner_id',$request->user()->id)->exists()){
         if(Apply::where([['request_id',$request_id],['donner_id',$request->user()->id]])->exists())
         {
-            return response()->json("already applies ya 3asl");
+            return response()->json("already applied",406);
         }
 
        else{
@@ -54,6 +54,8 @@ class DonnationController extends Controller
             'donner_id' => $request->user()->id,
            ]);
 
+    }}else{
+        return response()->json("Please make the Eligibility quiz",406);
     }
 
     }
