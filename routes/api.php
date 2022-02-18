@@ -125,6 +125,9 @@ Route::get('articles/{articleId}',[AdminController::class,'articleDetails']);
 //route to get number of requests overall
 Route::get('overall-requests',[RequestController::class,'OverallRequests']);
 
+//route to get liked posts for each user(post_id)
+Route::get('liked-posts',[PostController::class,'likedposts'])->middleware('auth:sanctum');
+
 
 
 

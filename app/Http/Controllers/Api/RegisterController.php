@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UpdateRequest;
 use Illuminate\Auth\Events\Registered;
 
-use function PHPSTORM_META\type;
+
 
 class RegisterController extends Controller
 {

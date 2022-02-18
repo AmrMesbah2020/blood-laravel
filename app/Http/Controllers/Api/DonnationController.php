@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Blood;
 use App\Models\Donner;
 use App\Models\Apply;
+use App\Models\User;
 
 
 class DonnationController extends Controller
@@ -40,10 +41,10 @@ class DonnationController extends Controller
 
     public function apply(Request $request,$request_id){
 
-
+        if(Donner::where('donner_id',$request->user()->id)->exists()){
         if(Apply::where([['request_id',$request_id],['donner_id',$request->user()->id]])->exists())
         {
-            return response()->json("already applies ya 3asl");
+            return response()->json("already applied",406);
         }
 
        else{
@@ -53,16 +54,20 @@ class DonnationController extends Controller
             'donner_id' => $request->user()->id,
            ]);
 
+    }}else{
+        return response()->json("Please make the Eligibility quiz",406);
     }
 
-        }
-        public function DonnerAplies(Request $request){
-            
-            $input=$request->user()->id;
-           return Apply::select(Apply::raw('count(donner_id)'))->where('donner_id',$input)->pluck('count(donner_id)');
+    }
+    public function DonnerAplies(Request $request){
 
-        }
+        $input=$request->user()->id;
+        return Apply::select(Apply::raw('count(donner_id)'))->where('donner_id',$input)->pluck('count(donner_id)');
 
+    }
 
+    public function donnerData($donnerId){
+        return User::find($donnerId);
+    }
 
 }
