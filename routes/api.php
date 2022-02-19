@@ -98,8 +98,14 @@ Route::get('userrequests',[RequestController::class,'UserHasRequests'])->middlew
 // route display user posts
 Route::get('userposts',[PostController::class,'UserHasPosts'])->middleware('auth:sanctum');
 
-//route to get notification
-Route::get('getNotification',[notificationController::class,'get']);
+//route to get request notification
+Route::get('getRequestNotification',[notificationController::class,'get']);
+
+//route to get user notification
+Route::get('getUserNotification',[notificationController::class,'userHasNotification'])->middleware('auth:sanctum');
+
+//route to mark notification as read
+Route::post('mark-as-read',[notificationController::class,'markAsRead'])->middleware('auth:sanctum');
 
 //route to edit profile
 Route::post('update-profile',[RegisterController::class,'update'])->middleware('auth:sanctum');
