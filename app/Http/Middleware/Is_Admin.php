@@ -19,6 +19,6 @@ class Is_Admin
         if($request->user()->isAdmin){
             return $next($request);
         }
-        return response()->json('msh admin ya 3sl');
+        return response()->json('Admins Only');
     }
 }
