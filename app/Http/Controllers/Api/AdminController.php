@@ -62,7 +62,7 @@ class AdminController extends Controller
     }
 
     public function feedback(Request $request){
-
+        
         $input = $request->all();
 
         Feedback::create($input);
