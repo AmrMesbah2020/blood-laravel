@@ -75,4 +75,8 @@ class AdminController extends Controller
         return Article::where('article_id',$articleId)->get();
 
     }
+
+    public function getFeedback(){
+        return Feedback::all();
+    }
 }
