@@ -64,7 +64,13 @@ class RegisterController extends Controller
 
         $input=$request->all();
 
-        User::where('id',$request->user()->id)->update($input);
+        User::where('id',$request->user()->id)->update([
+            'name'=>$input['name'],
+            'email'=>$input['email'],
+            'address'=>$input['address'],
+            'wieght'=>$input['wieght'],
+            'phone'=>$input['phone']
+        ]);
     }
 
     public function calcAge($birtdate){

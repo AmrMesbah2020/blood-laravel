@@ -36,8 +36,7 @@ class PostRequest extends FormRequest
             'title.min' => 'for title min input must be at least 10 chars.',
             'title.max' => 'for title max input must be at least 40 chars.',
             'content.required'=>' content field is required.',
-            'content.min'=>'for content min input must be at least 100 chars.',
-            'content.max'=>'for content max input must be at least 200 chars.',
+            'content.max'=>'for content max input 200 chars.',
 
         ];
     }

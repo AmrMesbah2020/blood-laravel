@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Rating;
 use App\Http\Resources\PostResource;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Exists;
 use Illuminate\Support\Collection;
 
@@ -19,27 +20,21 @@ class PostController extends Controller
     {
         $input = $request->all();
 
-        // if($request->hasFile('image')){
-        //     $CompleteFileName=$request->file('image')->getClientOriginalName();
-        //     $fileNameOnly=pathinfo($CompleteFileName,PATHINFO_FILENAME);
-        //     $extension=$request->file('image')->getClientOriginalExtension();
-        //     $comPic=str_replace(' ','_',$fileNameOnly).'_'.rand().'_'.time().'.'.$extension;
-        //     $path=$request->file('image')->storeAs();
-        //     dd($comPic);
-        // }
 
         if ($path = $request->file('image')) {
-            $path = $request->file('image')->store('post_images');
-            // $extension = $request->file('image')->extension(); 
-            dd($path);
+            $path = $request->file('image')->store('public');
+            // $extension = $request->file('image')->extension();
+
         }
 
         Post::create([
             'title' => $input['title'],
             'content' => $input['content'],
-            'image' => $path,
+            'image' => $request->file('image')->hashName(),
             'user_id' => $request->user()->id,
         ]);
+
+
     }
 
     public function rate(Request $request, $postId)
@@ -111,6 +106,12 @@ class PostController extends Controller
 
     public function likedposts(Request $request){
        return Rating::select('post_id')->where('user_id',$request->user()->id)->pluck('post_id');
+    }
+
+    public function image($image){
+        $file =Storage::disk('public')->url($image);
+        dd($file);
+        return response($file, 200)->header('Content-Type', 'image/jpeg');
     }
 
 

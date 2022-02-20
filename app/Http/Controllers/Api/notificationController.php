@@ -16,16 +16,16 @@ use Illuminate\Notifications\Notifiable;
 
 class notificationController extends Controller
 {
-   
+
     public function send($id){
-        
+
 
     $users=User::get();
 
     $request=ModelRequest::where('request_id', $id)->first();
     Notification::send($users,new postNewNotification($request));
     ;
-    
+
     }
 
 
@@ -45,14 +45,13 @@ class notificationController extends Controller
 
 // dd($request->user()->id);
         // dd(localNotification::where([['status',0],['user_id',$request->user()->id]])->get());
-    }      
-    
+    }
+
     public function markAsRead(Request $request){
        if(localNotification::where([['status',0],['user_id',$request->user()->id]])->exists()){
         localNotification::where([['status',0],['user_id',$request->user()->id]])->update(['status'=>1]);
        }else{
-           return response()->json('not found',404);
+           return response()->json('not found');
        }
     }
 }
- 
