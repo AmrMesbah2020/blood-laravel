@@ -17,6 +17,7 @@ class UserResource extends JsonResource
         return [
             'name'=>$this->name,
             'email'=>$this->email,
+            'birthdate'=>$this->birthdate,
             'age'=> app('App\Http\Controllers\Api\RegisterController')->calcAge($this->birthdate),
             'address'=>$this->address,
             'gender'=>$this->gender,

@@ -9,8 +9,10 @@ use Illuminate\Http\Request;
 use App\Models\Blood;
 use App\Models\Donner;
 use App\Models\Apply;
+use App\Models\localNotification;
+use App\Models\Request as ModelsRequest;
 use App\Models\User;
-
+use App\Models\userNotification;
 
 class DonnationController extends Controller
 {
@@ -48,10 +50,21 @@ class DonnationController extends Controller
         }
 
        else{
+           $doonerName=User::where('id',$request->user()->id)->pluck('name');
+           $requestDescription=ModelsRequest::where('request_id',$request_id)->pluck('description');
+           $request_owner=ModelsRequest::where('request_id',$request_id)->pluck('owner_id');
+
+        //    dd($requestDescription);
+
            Apply::insert([
 
             'request_id' => $request_id,
             'donner_id' => $request->user()->id,
+           ]);
+
+           localNotification::insert([
+            'notification_message' =>$doonerName[0] .' Apply your request ' .$requestDescription[0],
+            'user_id'=> $request_owner[0],
            ]);
 
     }}else{

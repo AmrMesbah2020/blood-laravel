@@ -13,7 +13,6 @@ use App\Http\Requests\UpdateRequest;
 use Illuminate\Auth\Events\Registered;
 
 
-
 class RegisterController extends Controller
 {
 
@@ -36,7 +35,7 @@ class RegisterController extends Controller
 
         $success['token'] =  $user->createToken('MyApp')->plainTextToken;
 
-      //  event(new Registered($user));
+        // event(new Registered($user));
         return response()->json(["done",$success], 200);
         }
     }

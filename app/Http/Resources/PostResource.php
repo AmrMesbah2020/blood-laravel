@@ -19,6 +19,7 @@ class PostResource extends JsonResource
             'title'=>$this->title,
             'content'=>$this->content,
             'image'=>$this->image,
+            'access'=>$this->access,
             'owner'=>new UserResource($this->user),
             'rate'=>app('App\Http\Controllers\Api\PostController')->postRate($this->post_id)
 
