@@ -10,6 +10,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UpdateRequest;
+use App\Http\Resources\UserResource;
 use Illuminate\Auth\Events\Registered;
 
 
@@ -64,12 +65,17 @@ class RegisterController extends Controller
 
         $input=$request->all();
 
+        if ($request->file('avatar')) {
+            $request->file('avatar')->store('public');
+        }
+
         User::where('id',$request->user()->id)->update([
             'name'=>$input['name'],
             'email'=>$input['email'],
             'address'=>$input['address'],
             'wieght'=>$input['wieght'],
-            'phone'=>$input['phone']
+            'phone'=>$input['phone'],
+            'avatar'=>$request->file('avatar')->hashName(),
         ]);
     }
 
@@ -77,6 +83,11 @@ class RegisterController extends Controller
 
         (int)$years=Carbon::parse($birtdate)->diff(Carbon::now())->format('%y');
         return (int)$years;
+    }
+
+    public function profile($userId){
+        $user=User::find($userId);
+        return new UserResource($user);
     }
 
 }

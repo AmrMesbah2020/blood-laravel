@@ -65,6 +65,7 @@ class DonnationController extends Controller
            localNotification::insert([
             'notification_message' =>$doonerName[0] .' Apply your request ' .$requestDescription[0],
             'user_id'=> $request_owner[0],
+            'donner_id'=>$request->user()->id,
            ]);
 
     }}else{
