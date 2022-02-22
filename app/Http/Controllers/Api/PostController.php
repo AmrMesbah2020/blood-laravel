@@ -110,6 +110,8 @@ class PostController extends Controller
        return Rating::select('post_id')->where('user_id',$request->user()->id)->pluck('post_id');
     }
 
-
+    public function postsCount($id){
+       return Post::where([['user_id',$id],['access',true]])->count();
+    }
 
 }

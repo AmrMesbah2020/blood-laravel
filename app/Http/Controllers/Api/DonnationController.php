@@ -84,4 +84,8 @@ class DonnationController extends Controller
         return User::find($donnerId);
     }
 
+    public function applyCount($id){
+        return Apply::where('donner_id',$id)->count();
+    }
+
 }

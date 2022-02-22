@@ -137,8 +137,14 @@ Route::get('liked-posts',[PostController::class,'likedposts'])->middleware('auth
 //route to get profile data
 Route::get('profile/{userId}',[RegisterController::class,'profile']);
 
+//route to get posts count of user
+Route::get('posts-count/{user_id}',[PostController::class,'postsCount']);
 
+//route to get requests count of user
+Route::get('requests-count/{user_id}',[RequestController::class,'requestsCount']);
 
+//route to get apply count of user
+Route::get('apply-count/{user_id}',[DonnationController::class,'applyCount']);
 
 
 /////////////////////////admin///////////////////////////////////////////////

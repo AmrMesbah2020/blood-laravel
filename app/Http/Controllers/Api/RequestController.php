@@ -80,4 +80,8 @@ class RequestController extends Controller
     public function OverallRequests(){
        return RequestModel::select('request_id')->count();
     }
+
+    public function requestsCount($id){
+        return RequestModel::where('owner_id',$id)->count();
+     }
 }
