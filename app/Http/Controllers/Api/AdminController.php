@@ -23,14 +23,14 @@ class AdminController extends Controller
     {
         $input = $request->all();
 
-        if ($path = $request->file('image')) {
-            $path = $request->file('image')->store('article_images');
+        if ( $request->file('image')) {
+             $request->file('image')->store('public');
         }
 
         Article::create([
             'title' => $input['title'],
             'content' => $input['content'],
-            'image' => $path,
+            'image' => $request->file('image')->hashName(),
             'resources'=>$input['resources'],
             'admin_id' => $request->user()->id,
         ]);

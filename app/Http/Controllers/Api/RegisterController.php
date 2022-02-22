@@ -65,6 +65,8 @@ class RegisterController extends Controller
 
         $input=$request->all();
 
+        if(User::where('email',$input['email'])->exists()){
+
         if ($request->file('avatar')) {
             $request->file('avatar')->store('public');
         }
@@ -77,6 +79,9 @@ class RegisterController extends Controller
             'phone'=>$input['phone'],
             'avatar'=>$request->file('avatar')->hashName(),
         ]);
+    }else{
+        return response()->json('This Email already has Account');
+    }
     }
 
     public function calcAge($birtdate){
