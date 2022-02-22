@@ -134,10 +134,17 @@ Route::get('overall-requests',[RequestController::class,'OverallRequests']);
 //route to get liked posts for each user(post_id)
 Route::get('liked-posts',[PostController::class,'likedposts'])->middleware('auth:sanctum');
 
-//route to return images
-Route::get('image/{image}',[PostController::class,'image']);
+//route to get profile data
+Route::get('profile/{userId}',[RegisterController::class,'profile']);
 
+//route to get posts count of user
+Route::get('posts-count/{user_id}',[PostController::class,'postsCount']);
 
+//route to get requests count of user
+Route::get('requests-count/{user_id}',[RequestController::class,'requestsCount']);
+
+//route to get apply count of user
+Route::get('apply-count/{user_id}',[DonnationController::class,'applyCount']);
 
 
 /////////////////////////admin///////////////////////////////////////////////

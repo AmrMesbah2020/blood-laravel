@@ -65,6 +65,7 @@ class DonnationController extends Controller
            localNotification::insert([
             'notification_message' =>$doonerName[0] .' Apply your request ' .$requestDescription[0],
             'user_id'=> $request_owner[0],
+            'donner_id'=>$request->user()->id,
            ]);
 
     }}else{
@@ -81,6 +82,10 @@ class DonnationController extends Controller
 
     public function donnerData($donnerId){
         return User::find($donnerId);
+    }
+
+    public function applyCount($id){
+        return Apply::where('donner_id',$id)->count();
     }
 
 }

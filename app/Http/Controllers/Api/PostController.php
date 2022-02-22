@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Exists;
 use Illuminate\Support\Collection;
 
+use function PHPUnit\Framework\isEmpty;
+
 class PostController extends Controller
 {
 
@@ -21,8 +23,8 @@ class PostController extends Controller
         $input = $request->all();
 
 
-        if ($path = $request->file('image')) {
-            $path = $request->file('image')->store('public');
+        if ($request->file('image')) {
+            $request->file('image')->store('public');
             // $extension = $request->file('image')->extension();
 
         }
@@ -78,14 +80,14 @@ class PostController extends Controller
             ->limit(1)
             ->get();
 
-        $post_id = $posts[0]->post_id;
 
-        $post = Post::where('post_id', $post_id)->get();
+                $post_id = $posts[0]->post_id;
 
+                $post = Post::where('post_id', $post_id)->get();
 
-        return PostResource::collection($post);
+                return PostResource::collection($post);
+
     }
-
     public function post($postId)
     {
         $post = Post::find($postId);
@@ -108,12 +110,8 @@ class PostController extends Controller
        return Rating::select('post_id')->where('user_id',$request->user()->id)->pluck('post_id');
     }
 
-    public function image($image){
-        $file =Storage::disk('public')->url($image);
-        dd($file);
-        return response($file, 200)->header('Content-Type', 'image/jpeg');
+    public function postsCount($id){
+       return Post::where([['user_id',$id],['access',true]])->count();
     }
-
-
 
 }
