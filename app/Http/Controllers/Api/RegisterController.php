@@ -65,10 +65,11 @@ class RegisterController extends Controller
 
         $input=$request->all();
 
-        if(User::where('email',$input['email'])->exists()){
+        // if(!User::where('email',$input['email'])->exists()){
 
         if ($request->file('avatar')) {
             $request->file('avatar')->store('public');
+            User::where('id',$request->user()->id)->update(['avatar'=>$request->file('avatar')->hashName()]);
         }
 
         User::where('id',$request->user()->id)->update([
@@ -77,11 +78,11 @@ class RegisterController extends Controller
             'address'=>$input['address'],
             'wieght'=>$input['wieght'],
             'phone'=>$input['phone'],
-            'avatar'=>$request->file('avatar')->hashName(),
+
         ]);
-    }else{
-        return response()->json('This Email already has Account');
-    }
+    // }else{
+    //     return response()->json('This Email already has Account');
+    // }
     }
 
     public function calcAge($birtdate){
