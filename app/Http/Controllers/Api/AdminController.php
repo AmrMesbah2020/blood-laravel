@@ -15,8 +15,13 @@ class AdminController extends Controller
     public function addAdmin(Request $request)
     {
         $input=$request->all();
+        if(User::where('email',$input['email'])->exists()){
         User::where('email',$input['email'])->update(['isAdmin'=>1]);
-        return 'become admin';
+        return response()->json('done',200);
+    }else{
+        return response()->json('No User With This Email',404);
+    }
+
     }
     ////////////////////////////////////////////////////////////////////////////////////////
     public function addArticle(ArticleRequest $request)
@@ -78,7 +83,7 @@ class AdminController extends Controller
 
         Feedback::create($input);
 
-        return response()->json("ya 3asl",200);
+        return response()->json("done",200);
 
     }
 

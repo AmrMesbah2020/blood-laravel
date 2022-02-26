@@ -146,6 +146,9 @@ Route::get('requests-count/{user_id}',[RequestController::class,'requestsCount']
 //route to get apply count of user
 Route::get('apply-count/{user_id}',[DonnationController::class,'applyCount']);
 
+//route to modify donner data
+Route::post('modify-donnation',[DonnationController::class,'updateDonnationData'])->middleware('auth:sanctum');
+
 
 /////////////////////////admin///////////////////////////////////////////////
 

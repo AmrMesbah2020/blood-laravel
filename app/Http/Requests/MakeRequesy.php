@@ -25,7 +25,7 @@ class MakeRequesy extends FormRequest
     {
         return [
             'phone'=>'required|max:15',
-            'description'=>'required|',
+            'description'=>'required',
             'quantity'=>'required',
             'date'=>'date_format:Y-m-d|after:'.date('Y-m-d'),
             'address'=>'required',
