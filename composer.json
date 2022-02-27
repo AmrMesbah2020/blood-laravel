@@ -12,7 +12,8 @@
         "laravel/passport": "^10.3",
         "laravel/sanctum": "^2.14",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "^3.4"
+        "laravel/ui": "^3.4",
+        "pusher/pusher-php-server": "5.0.3"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\VerifyEmailController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\notificationController;
 use App\Http\Controllers\Api\BloodController;
+use App\Http\Controllers\Api\ChatController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -148,6 +149,9 @@ Route::get('apply-count/{user_id}',[DonnationController::class,'applyCount']);
 
 //route to modify donner data
 Route::post('modify-donnation',[DonnationController::class,'updateDonnationData'])->middleware('auth:sanctum');
+
+//route to chat
+Route::post('messages',[ChatController::class,'message']);
 
 
 /////////////////////////admin///////////////////////////////////////////////
