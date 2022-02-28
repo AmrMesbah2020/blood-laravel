@@ -15,8 +15,13 @@ class AdminController extends Controller
     public function addAdmin(Request $request)
     {
         $input=$request->all();
+        if(User::where('email',$input['email'])->exists()){
         User::where('email',$input['email'])->update(['isAdmin'=>1]);
-        return 'become admin';
+        return response()->json('done',200);
+    }else{
+        return response()->json('No User With This Email',404);
+    }
+
     }
     ////////////////////////////////////////////////////////////////////////////////////////
     public function addArticle(ArticleRequest $request)
@@ -25,30 +30,41 @@ class AdminController extends Controller
 
         if ( $request->file('image')) {
              $request->file('image')->store('public');
+             Article::create([
+                'title' => $input['title'],
+                'content' => $input['content'],
+                'image' => $request->file('image')->hashName(),
+                'resources'=>$input['resources'],
+                'admin_id' => $request->user()->id,
+            ]);
+        }else{
+            Article::create([
+                'title' => $input['title'],
+                'content' => $input['content'],
+                'resources'=>$input['resources'],
+                'admin_id' => $request->user()->id,
+            ]);
         }
 
-        Article::create([
-            'title' => $input['title'],
-            'content' => $input['content'],
-            'image' => $request->file('image')->hashName(),
-            'resources'=>$input['resources'],
-            'admin_id' => $request->user()->id,
-        ]);
+
     }
 
     public function publish(Request $request, $postId)
     {
         Post::where('post_id', $postId)->update(['access' => 1, 'admin_id' => $request->user()->id]);
+        return response()->json('done');
     }
 
     public function deletePost($postId)
     {
         Post::where('post_id', $postId)->forceDelete();
+        return response()->json('done');
     }
 
     public function deleteArticle($ArticleId)
     {
         Article::where('article_id', $ArticleId)->delete();
+        return response()->json('done');
     }
 
     public function latestArticle(){
@@ -67,7 +83,7 @@ class AdminController extends Controller
 
         Feedback::create($input);
 
-        return response()->json("ya 3asl",200);
+        return response()->json("done",200);
 
     }
 

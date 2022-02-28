@@ -31,9 +31,8 @@ class RegisterRequest extends FormRequest
             'gender'=>'required',
             'phone'=>'required',
             'address'=>'required',
-            'birthdate'=>'required',
+            'birthdate'=>'required|date_format:Y-m-d|before:'.date('Y-m-d'),
             'wieght'=>'required',
-
 
         ];
     }

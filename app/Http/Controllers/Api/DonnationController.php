@@ -13,6 +13,7 @@ use App\Models\localNotification;
 use App\Models\Request as ModelsRequest;
 use App\Models\User;
 use App\Models\userNotification;
+use Illuminate\Support\Carbon;
 
 class DonnationController extends Controller
 {
@@ -24,7 +25,7 @@ class DonnationController extends Controller
         $input = $request->all();
         $blood_id= Blood::where([['rhd',$input['rhd']],['blood_group',$input['blood_group']]])->pluck('blood_id');
         if(Donner::where('donner_id',$request->user()->id)->exists()){
-            return "already exist ya 3sl";
+            return response()->json("You are Already Donner",200) ;
         }else{
         Donner::create([
             'last_date_of_donnation'=>$input['last_date_of_donnation'],
@@ -32,7 +33,20 @@ class DonnationController extends Controller
             'blood_id'=>$blood_id[0],
         ]);
         Blood::where('blood_id',$blood_id)->increment('availability');
+        return response()->json("done",200) ;
+
     }
+    }
+
+    public function updateDonnationData(Request $request){
+        $input=$request->all();
+        $blood_id= Blood::where([['rhd',$input['rhd']],['blood_group',$input['blood_group']]])->pluck('blood_id');
+        Donner::where('donner_id',$request->user()->id)->update([
+            'last_date_of_donnation'=>$input['last_date_of_donnation'],
+            'blood_id'=>$blood_id[0],
+        ]);
+        Blood::where('blood_id',$blood_id)->increment('availability');
+        return response()->json('Modified Successfully',200);
     }
 
     public function donners(){
@@ -41,38 +55,52 @@ class DonnationController extends Controller
     }
 
 
+    public function avilabilityOfDonnation($id){
+        $last_date_of_donation=Donner::where('donner_id',$id)->pluck('last_date_of_donnation');
+        $days=Carbon::parse(date($last_date_of_donation[0]))->diff(Carbon::now())->format('%a');
+        return (int)$days;
+    }
+
+    public function ifDonner($id){
+       return Donner::where('donner_id',$id)->exists();
+    }
+
+
     public function apply(Request $request,$request_id){
-
-        if(Donner::where('donner_id',$request->user()->id)->exists()){
-        if(Apply::where([['request_id',$request_id],['donner_id',$request->user()->id]])->exists())
-        {
-            return response()->json("already applied",406);
+        if($this->ifDonner($request->user()->id)){
+            if($this->avilabilityOfDonnation($request->user()->id)<56){
+                $waitingDays=56-$this->avilabilityOfDonnation($request->user()->id);
+                    return response()->json("For Your Health Please wait at least ${waitingDays} day",200);
+            }else{
+                if(Apply::where([['request_id',$request_id],['donner_id',$request->user()->id]])->exists()){
+                    return response()->json("already applied",406);
+                }else{
+                    $doonerName=User::where('id',$request->user()->id)->pluck('name');
+                    $requestDescription=ModelsRequest::where('request_id',$request_id)->pluck('description');
+                    $request_owner=ModelsRequest::where('request_id',$request_id)->pluck('owner_id');
+                    Apply::insert([
+                        'request_id' => $request_id,
+                        'donner_id' => $request->user()->id,
+                        ]);
+                    localNotification::insert([
+                        'notification_message' =>$doonerName[0] .' Apply your request ' .$requestDescription[0],
+                        'user_id'=> $request_owner[0],
+                        'donner_id'=>$request->user()->id,
+                ]);}
+                return response()->json('Thank You',200);
+                }
         }
-
-       else{
-           $doonerName=User::where('id',$request->user()->id)->pluck('name');
-           $requestDescription=ModelsRequest::where('request_id',$request_id)->pluck('description');
-           $request_owner=ModelsRequest::where('request_id',$request_id)->pluck('owner_id');
-
-        //    dd($requestDescription);
-
-           Apply::insert([
-
-            'request_id' => $request_id,
-            'donner_id' => $request->user()->id,
-           ]);
-
-           localNotification::insert([
-            'notification_message' =>$doonerName[0] .' Apply your request ' .$requestDescription[0],
-            'user_id'=> $request_owner[0],
-            'donner_id'=>$request->user()->id,
-           ]);
-
-    }}else{
+        else{
         return response()->json("Please make the Eligibility quiz",406);
-    }
+         }
 
     }
+
+
+
+
+
+
     public function DonnerAplies(Request $request){
 
         $input=$request->user()->id;

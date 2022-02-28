@@ -25,18 +25,19 @@ class PostController extends Controller
 
         if ($request->file('image')) {
             $request->file('image')->store('public');
-            // $extension = $request->file('image')->extension();
-
+            Post::create([
+                'title' => $input['title'],
+                'content' => $input['content'],
+                'user_id' => $request->user()->id,
+                'image' => $request->file('image')->hashName()
+            ]);
+        }else{
+            Post::create([
+                'title' => $input['title'],
+                'content' => $input['content'],
+                'user_id' => $request->user()->id,
+            ]);
         }
-
-        Post::create([
-            'title' => $input['title'],
-            'content' => $input['content'],
-            'image' => $request->file('image')->hashName(),
-            'user_id' => $request->user()->id,
-        ]);
-
-
     }
 
     public function rate(Request $request, $postId)

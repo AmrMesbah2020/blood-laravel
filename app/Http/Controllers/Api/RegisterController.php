@@ -8,6 +8,9 @@ use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use App\Models\Apply;
+use App\Models\Post;
+use App\Models\Request as RequestModel;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UpdateRequest;
 use App\Http\Resources\UserResource;
@@ -93,7 +96,15 @@ class RegisterController extends Controller
 
     public function profile($userId){
         $user=User::find($userId);
-        return new UserResource($user);
+        $postsCount=Post::where([['user_id',$userId],['access',true]])->count();
+        $requestsCount=RequestModel::where('owner_id',$userId)->count();
+        $appliesCount=Apply::where('donner_id',$userId)->count();
+
+        return [new UserResource($user),$postsCount, $requestsCount,$appliesCount];
+    }
+
+    public function isVerified(Request $request){
+       return $request->user()->hasVerifiedEmail();
     }
 
 }
