@@ -151,8 +151,13 @@ Route::get('apply-count/{user_id}',[DonnationController::class,'applyCount']);
 Route::post('modify-donnation',[DonnationController::class,'updateDonnationData'])->middleware('auth:sanctum');
 
 //route to chat
-Route::post('messages',[ChatController::class,'message']);
+Route::post('messages',[ChatController::class,'message'])->middleware('auth:sanctum');
 
+//route to get chat messages
+Route::get('get-messages',[ChatController::class,'oldChat']);
+
+//route to check if email verified
+Route::get('verified',[RegisterController::class,'isVerified'])->middleware('auth:sanctum');
 
 /////////////////////////admin///////////////////////////////////////////////
 

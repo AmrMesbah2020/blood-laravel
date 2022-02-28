@@ -103,4 +103,8 @@ class RegisterController extends Controller
         return [new UserResource($user),$postsCount, $requestsCount,$appliesCount];
     }
 
+    public function isVerified(Request $request){
+       return $request->user()->hasVerifiedEmail();
+    }
+
 }

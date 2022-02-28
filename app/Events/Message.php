@@ -10,16 +10,20 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
+
+
 class Message implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
    public $message;
-   public $username;
-    public function __construct($username,$message)
+   public $sender;
+   public $created_at;
+    public function __construct($sender,$message)
     {
         $this->message=$message;
-        $this->username=$username;
+        $this->sender=$sender;
+        $this->created_at=now();
     }
 
     /**
