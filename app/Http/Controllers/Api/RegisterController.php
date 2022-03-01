@@ -30,7 +30,7 @@ class RegisterController extends Controller
         $input = $request->all();
 
         if(User::where('email',$input['email'])->exists()){
-            return response()->json(["this email already has acount"],403);
+            return response()->json(["this email already has account"],403);
         }else{
 
         $input['password'] = bcrypt($input['password']);
@@ -39,7 +39,7 @@ class RegisterController extends Controller
 
         $success['token'] =  $user->createToken('MyApp')->plainTextToken;
 
-        // event(new Registered($user));
+        event(new Registered($user));
         return response()->json(["done",$success], 200);
         }
     }
@@ -104,7 +104,10 @@ class RegisterController extends Controller
     }
 
     public function isVerified(Request $request){
-       return $request->user()->hasVerifiedEmail();
+        return $request->user()->hasVerifiedEmail();
+        // dd($request->user()->hasVerifiedEmail());
     }
+
+
 
 }
