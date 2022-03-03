@@ -46,7 +46,7 @@ class AdminController extends Controller
             ]);
         }
 
-
+        return response()->json('done');
     }
 
     public function publish(Request $request, $postId)
