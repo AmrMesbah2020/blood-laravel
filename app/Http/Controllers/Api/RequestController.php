@@ -52,8 +52,8 @@ class RequestController extends Controller
         ]);
 
         event(new RequestNotification($request->user()->name.' need blood of type '.$input['blood_group'].$input['rhd']));
-        $userID = auth()->user()->id;
-        $user = User::where('id', $userID)->first();
+        // $userID = auth()->user()->id;
+        // $user = User::where('id', $userID)->first();
         // $user->notify(new postNewNotification($requestSent));
         // $this->notificationController->send($request->request_id);
 
