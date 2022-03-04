@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\notificationController;
 use App\Http\Controllers\Api\BloodController;
 use App\Http\Controllers\Api\ChatController;
+use App\Http\Controllers\Api\SendEmailController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -46,6 +47,12 @@ Route::post('/email/verify/resend', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth:api', 'throttle:6,1'])->name('verification.send');
+
+//send email to user
+Route::post("sendemail",[SendEmailController::class,"send"]);
+
+//search in volunteers
+Route::get('search/{donner}',[DonnationController::class,'search']);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

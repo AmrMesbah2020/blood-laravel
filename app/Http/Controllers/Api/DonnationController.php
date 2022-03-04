@@ -14,6 +14,7 @@ use App\Models\Request as ModelsRequest;
 use App\Models\User;
 use App\Models\userNotification;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class DonnationController extends Controller
 {
@@ -116,4 +117,15 @@ class DonnationController extends Controller
         return Apply::where('donner_id',$id)->count();
     }
 
+    public function search($name){
+ 
+        $ResultBlood= DB::table('donners')
+        ->join('blood', 'blood.blood_id', '=', 'donners.blood_id')
+        ->join('users', 'donners.donner_id', '=', 'users.id')
+        ->whereRaw("CONCAT(`blood_group`, `rhd`) = ?", [$name])
+        ->orWhereRaw("blood_group like '%".$name."%'")
+        ->get();
+        return response()->json($ResultBlood);
+ 
+ }
 }
