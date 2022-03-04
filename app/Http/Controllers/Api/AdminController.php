@@ -46,25 +46,25 @@ class AdminController extends Controller
             ]);
         }
 
-
+        return response()->json('done',200);
     }
 
     public function publish(Request $request, $postId)
     {
         Post::where('post_id', $postId)->update(['access' => 1, 'admin_id' => $request->user()->id]);
-        return response()->json('done');
+        return response()->json('done',200);
     }
 
     public function deletePost($postId)
     {
         Post::where('post_id', $postId)->forceDelete();
-        return response()->json('done');
+        return response()->json('done',200);
     }
 
     public function deleteArticle($ArticleId)
     {
         Article::where('article_id', $ArticleId)->delete();
-        return response()->json('done');
+        return response()->json('done',200);
     }
 
     public function latestArticle(){

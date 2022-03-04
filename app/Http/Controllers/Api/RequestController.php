@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\RequestNotification;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MakeRequesy;
 use App\Http\Resources\RequestsResource;
@@ -39,7 +40,7 @@ class RequestController extends Controller
         // dd($request->user()->id);
 
 
-        $request = RequestModel::create([
+         $requestSent=RequestModel::create([
             'phone' => $input['phone'],
             'description' => $input['description'],
             'quantity' => $input['quantity'],
@@ -49,9 +50,11 @@ class RequestController extends Controller
             'blood_id' => $blood_id[0],
 
         ]);
-        $userID = auth()->user()->id;
-        $user = User::where('id', $userID)->first();
-        $user->notify(new postNewNotification($request));
+
+        event(new RequestNotification($request->user()->name.' need blood of type '.$input['blood_group'].$input['rhd']));
+        // $userID = auth()->user()->id;
+        // $user = User::where('id', $userID)->first();
+        // $user->notify(new postNewNotification($requestSent));
         // $this->notificationController->send($request->request_id);
 
     }
