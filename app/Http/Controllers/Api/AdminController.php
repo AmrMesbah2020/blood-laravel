@@ -29,7 +29,7 @@ class AdminController extends Controller
         $input = $request->all();
 
         if ( $request->file('image')) {
-            $imageURL = cloudinary()->upload($request->file('file')->getRealPath())->getSecurePath();
+            $imageURL = cloudinary()->upload($request->file('image')->getRealPath())->getSecurePath();
              Article::create([
                 'title' => $input['title'],
                 'content' => $input['content'],

@@ -71,7 +71,7 @@ class RegisterController extends Controller
         // if(!User::where('email',$input['email'])->exists()){
 
         if ($request->file('avatar')) {
-            $avatarURL = cloudinary()->upload($request->file('file')->getRealPath())->getSecurePath();
+            $avatarURL = cloudinary()->upload($request->file('avatar')->getRealPath())->getSecurePath();
             User::where('id',$request->user()->id)->update(['avatar'=>$avatarURL]);
         }
 

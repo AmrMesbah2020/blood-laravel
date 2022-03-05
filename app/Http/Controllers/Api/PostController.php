@@ -24,7 +24,7 @@ class PostController extends Controller
 
 
         if ($request->file('image')) {
-            $imageURL = cloudinary()->upload($request->file('file')->getRealPath())->getSecurePath();
+            $imageURL = cloudinary()->upload($request->file('image')->getRealPath())->getSecurePath();
             Post::create([
                 'title' => $input['title'],
                 'content' => $input['content'],
