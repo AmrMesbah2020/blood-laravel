@@ -24,12 +24,12 @@ class PostController extends Controller
 
 
         if ($request->file('image')) {
-            $request->file('image')->store('public');
+            $imageURL = cloudinary()->upload($request->file('file')->getRealPath())->getSecurePath();
             Post::create([
                 'title' => $input['title'],
                 'content' => $input['content'],
                 'user_id' => $request->user()->id,
-                'image' => $request->file('image')->hashName()
+                'image' => $imageURL
             ]);
         }else{
             Post::create([

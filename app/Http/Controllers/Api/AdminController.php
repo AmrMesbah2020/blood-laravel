@@ -29,11 +29,11 @@ class AdminController extends Controller
         $input = $request->all();
 
         if ( $request->file('image')) {
-             $request->file('image')->store('public');
+            $imageURL = cloudinary()->upload($request->file('file')->getRealPath())->getSecurePath();
              Article::create([
                 'title' => $input['title'],
                 'content' => $input['content'],
-                'image' => $request->file('image')->hashName(),
+                'image' => $imageURL,
                 'resources'=>$input['resources'],
                 'admin_id' => $request->user()->id,
             ]);
@@ -78,7 +78,7 @@ class AdminController extends Controller
     }
 
     public function feedback(Request $request){
-        
+
         $input = $request->all();
 
         Feedback::create($input);

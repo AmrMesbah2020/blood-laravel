@@ -71,8 +71,8 @@ class RegisterController extends Controller
         // if(!User::where('email',$input['email'])->exists()){
 
         if ($request->file('avatar')) {
-            $request->file('avatar')->store('public');
-            User::where('id',$request->user()->id)->update(['avatar'=>$request->file('avatar')->hashName()]);
+            $avatarURL = cloudinary()->upload($request->file('file')->getRealPath())->getSecurePath();
+            User::where('id',$request->user()->id)->update(['avatar'=>$avatarURL]);
         }
 
         User::where('id',$request->user()->id)->update([
