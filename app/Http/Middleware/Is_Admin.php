@@ -16,7 +16,7 @@ class Is_Admin
      */
     public function handle(Request $request, Closure $next)
     {
-        if($request->user()->isAdmin){
+        if($request->user()->isAdmin !=0){
             return $next($request);
         }
         return response()->json('Admins Only');

@@ -16,12 +16,23 @@ class AdminController extends Controller
     {
         $input=$request->all();
         if(User::where('email',$input['email'])->exists()){
-        User::where('email',$input['email'])->update(['isAdmin'=>1]);
+        User::where('email',$input['email'])->update(['isAdmin'=>2]);
         return response()->json('done',200);
     }else{
         return response()->json('No User With This Email',404);
     }
 
+    }
+
+    public function deleteAdmin(Request $request){
+        $input=$request->all();
+        if(User::where('email',$input['email'])->exists()){
+        User::where('email',$input['email'])->update(['isAdmin'=>0]);
+        return response()->json('done',200);
+    }else{
+        return response()->json('No User With This Email',404);
+    }
+    
     }
     ////////////////////////////////////////////////////////////////////////////////////////
     public function addArticle(ArticleRequest $request)

@@ -172,6 +172,9 @@ Route::get('verified',[RegisterController::class,'isVerified'])->middleware('aut
 
 Route::post('add-admin',[AdminController::class,'addAdmin'])->middleware(['auth:sanctum','Is_Admin']);
 
+//route to delete Admin
+Route::post('delete-admin',[AdminController::class,'deleteAdmin'])->middleware(['auth:sanctum','Is_Admin']);
+
 //route to write new article
 Route::post('add-article',[AdminController::class,'addArticle'])->middleware(['auth:sanctum','Is_Admin']);
 
@@ -192,21 +195,3 @@ Route::get('users',[RegisterController::class,'index'])->middleware(['auth:sanct
 
 //route to get feedback
 Route::get('all-feedback',[AdminController::class,'getFeedback'])->middleware(['auth:sanctum','Is_Admin']);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

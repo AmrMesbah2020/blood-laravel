@@ -49,7 +49,7 @@ class postNewNotification extends Notification
     {
         return [
             'data'=>new RequestsResource($this->request),
-            'user_id'=>1
+            // 'user_id'=>1
          ];
     }
 }
