@@ -27,12 +27,17 @@ class AdminController extends Controller
     public function deleteAdmin(Request $request){
         $input=$request->all();
         if(User::where('email',$input['email'])->exists()){
+            $user=User::where('email',$input['email'])->get();
+            if($user[0]['isAdmin'] !=0){
         User::where('email',$input['email'])->update(['isAdmin'=>0]);
-        return response()->json('done',200);
+        return response()->json('not admin now',200);
+            }else{
+                return response()->json('This User IS not Admin',404);
+            }
     }else{
         return response()->json('No User With This Email',404);
     }
-    
+
     }
     ////////////////////////////////////////////////////////////////////////////////////////
     public function addArticle(ArticleRequest $request)
